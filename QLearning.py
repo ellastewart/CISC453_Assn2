@@ -3,6 +3,7 @@ Written by Ella Stewart on 2019-11-12
 Implements QLearning for the Windy Grid World
 '''
 import random
+import numpy
 
 '''
 Sets up the grid to be used for Qlearning
@@ -22,18 +23,36 @@ class gridWorld:
 
     # Moves i and j given an action
     def moveState(self, action):
-        if action == 0:  # Move right
-            if self.i < 9:
+        if (action == 0): # move right
+            if (self.i < 9): # check out of bounds
+                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                    self.j += 1
+                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                    self.j += 2
                 self.i += 1
-        elif action == 1:  # Move up
-            if self.j < 6:
-                self.j += 1
-        elif action == 2:  # Move left
-            if self.i > 0:
+        elif (action == 1): # move up
+            if (self.j < 6): # check out of bounds
+                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 5: # wind factor of 1
+                    self.j += 2
+                elif (self.i == 6 or self.i == 7) and self.j < 4: # wind factor of 2
+                    self.j +=3
+                else:
+                    self.j += 1
+        elif (action == 2): # move left
+            if (self.i > 0): # check out of bounds
+                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                    self.j += 1
+                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                    self.j += 2
                 self.i -= 1
-        else:
-            if self.j > 0:  # Move down
-                self.j -= 1
+        elif (action == 3): # move down
+            if (self.j > 0): # check out of bounds
+                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                    self.j += 0
+                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                    self.j += 1
+                else:
+                    self.j -= 1
 
     # Returns current state as tuple
     def getCurrentState(self):
@@ -67,9 +86,7 @@ class QLearning:
 
         # 70 x 4 qTable
         # 70 states, 4 actions
-        self.qTable = []
-        for i in range(70):
-            self.qTable.append([0, 0, 0, 0])
+        self.qTable = numpy.zeros((70,4))
 
     # Called to the the QLearning algorithm
     def runAlgorithm(self):
@@ -94,15 +111,14 @@ class QLearning:
                 actionValues = self.qTable[index1]
 
                 # Determines greedy or random
-                num = random.uniform(0, 1)
+                num = random.random()
 
                 if num <= self.epsilon:
                     # Random action
-                    randomChoices = [0, 1, 2, 3]
-                    action = random.choice(randomChoices)
+                    action = random.randint(0, 3)
                 else:
                     # Greedy action
-                    action = actionValues.index(max(actionValues))
+                    action = (numpy.ndarray.tolist(actionValues)).index(max(actionValues))
 
                 # Observe S' and R
                 grid.moveState(action)
@@ -117,7 +133,7 @@ class QLearning:
                 index2 = states.index(S2)
                 possibleActions = self.qTable[index2]
 
-                maxA = possibleActions.index(max(possibleActions))
+                maxA = (numpy.ndarray.tolist(possibleActions)).index(max(possibleActions))
                 qSA = self.qTable[index1][action]
                 # Update QTable
                 self.qTable[index1][action] = qSA + self.alpha*(reward + self.gamma*maxA - qSA)
