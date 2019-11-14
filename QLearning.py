@@ -136,14 +136,14 @@ class QLearning:
                 maxA = (numpy.ndarray.tolist(possibleActions)).index(max(possibleActions))
                 qSA = self.qTable[index1][action]
                 # Update QTable
-                self.qTable[index1][action] = qSA + self.alpha*(reward + self.gamma*maxA - qSA)
+                self.qTable[index1][action] = qSA + self.alpha*(reward + self.gamma*self.qTable[index2][maxA] - qSA)
                 S = S2  # S <- S'
 
         return finalStates
 
 def main():
 
-    agent = QLearning(0.5, 0.5, 0.3)
+    agent = QLearning(0.5, 0.5, 0.1)
     finalStates = agent.runAlgorithm()
     print(finalStates)
 
