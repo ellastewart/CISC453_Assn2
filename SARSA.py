@@ -23,8 +23,11 @@ class gridworld():
             if (self.i < 9): # check out of bounds
                 if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
                     self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 2
+                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
+                    if self.j == 5:
+						self.j += 1
+					else:
+						self.j += 2
                 self.i += 1
         elif (action == 1): # move up
             if (self.j < 6): # check out of bounds
@@ -45,8 +48,11 @@ class gridworld():
             if (self.j > 0): # check out of bounds
                 if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
                     self.j += 0
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 1
+                elif (self.i == 6 or self.i == 7) and self.j < 2: # wind factor of 2
+                    if self.j == 5:
+						self.j += 0
+					else:
+						self.j += 1
                 else:
                     self.j -= 1
 
