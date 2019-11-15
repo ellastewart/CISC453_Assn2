@@ -25,24 +25,35 @@ class gridworld():
                     self.j += 1
                 elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
                     if self.j == 5:
-						self.j += 1
-					else:
-						self.j += 2
+                        self.j += 1
+                    else:
+                        self.j += 2
                 self.i += 1
         elif (action == 1): # move up
             if (self.j < 6): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 5: # wind factor of 1
-                    self.j += 2
-                elif (self.i == 6 or self.i == 7) and self.j < 4: # wind factor of 2
-                    self.j +=3
+                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                    if self.j == 5:
+                        self.j += 1
+                    else:
+                        self.j += 2
+                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
+                    if self.j == 5:
+                        self.j += 1
+                    elif self.j == 4:
+                        self.j += 2
+                    else:
+                        self.j +=3
                 else:
                     self.j += 1
         elif (action == 2): # move left
             if (self.i > 0): # check out of bounds
                 if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
                     self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 2
+                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
+                    if self.j == 5:
+                        self.j +=1
+                    else:
+                        self.j += 2
                 self.i -= 1
         elif (action == 3): # move down
             if (self.j > 0): # check out of bounds
@@ -50,9 +61,9 @@ class gridworld():
                     self.j += 0
                 elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
                     if self.j == 5:
-						self.j += 0
-					else:
-						self.j += 1
+                        self.j += 0
+                    else:
+                        self.j += 1
                 else:
                     self.j -= 1
 
