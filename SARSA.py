@@ -48,7 +48,7 @@ class gridworld():
             if (self.j > 0): # check out of bounds
                 if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
                     self.j += 0
-                elif (self.i == 6 or self.i == 7) and self.j < 2: # wind factor of 2
+                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
                     if self.j == 5:
 						self.j += 0
 					else:
