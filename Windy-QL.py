@@ -25,7 +25,7 @@ class gridWorld:
         # don't worry about bounds, handled in moveState
         light = [0,1,2] # light wind, randomly choose one
         heavy = [1,2,3] # heavy wind
-        if (self.i > 3 and self.i < 5 or self.i == 8): # average is 1
+        if (self.i >= 3 and self.i <=5 or self.i == 8): # average is 1
             choice = random.choice(light)
         elif (self.i == 6 or self.i == 7): # average is 2
             choice = random.choice(heavy)
