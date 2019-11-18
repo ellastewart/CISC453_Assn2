@@ -6,72 +6,70 @@ import random
 # TODO: question about the wind when it is a factor of 2 and it will go out of bounds. Does it go up one or none?
 class gridworld():
     def __init__(self):
-        self.i = 0  # initial position assuming 0, 0 is top left corner
-        self.j = 3  # initial position assuming 0, 0 is top left corner
-        self.actions = [(0, 1), (1, 0), (0, -1), (-1, 0)] # create all possible actions [right, up, left, down]
+        self.i = 3  # initial position assuming 0, 0 is top left corner
+        self.j = 0  # initial position assuming 0, 0 is top left corner
         self.states = []
 
         # A list of all the possible states
-        for x in range(10):
-            for y in range(7):
-                self.states.append((x, y))
+        for i in range(7):
+            for j in range(10):
+                self.states.append((i, j))
 
     # A move on the grid, either up, right, left, or down
     # Takes wind into account
     def moveState(self, action):
         if (action == 0): # move right
-            if (self.i < 9): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
-                    if self.j == 5:
-                        self.j += 1
+            if (self.j < 9): # check out of bounds
+                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+                    self.i -= 1
+                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                    if self.i == 1:
+                        self.i -= 1
                     else:
-                        self.j += 2
-                self.i += 1
+                        self.i -= 2
+                self.j += 1
         elif (action == 1): # move up
-            if (self.j < 6): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    if self.j == 5:
-                        self.j += 1
-                    else:
-                        self.j += 2
-                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
-                    if self.j == 5:
-                        self.j += 1
-                    elif self.j == 4:
-                        self.j += 2
-                    else:
-                        self.j +=3
-                else:
-                    self.j += 1
-        elif (action == 2): # move left
             if (self.i > 0): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
-                    if self.j == 5:
-                        self.j +=1
+                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+                    if self.i == 1:
+                        self.i -= 1
                     else:
-                        self.j += 2
-                self.i -= 1
-        elif (action == 3): # move down
-            if (self.j > 0): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 0
-                elif (self.i == 6 or self.i == 7) and self.j < 6: # wind factor of 2
-                    if self.j == 5:
-                        self.j += 0
+                        self.i -= 2
+                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                    if self.i == 1:
+                        self.i -= 1
+                    elif self.i == 2:
+                        self.i -= 2
                     else:
-                        self.j += 1
+                        self.i -=3
                 else:
-                    self.j -= 1
+                    self.i -= 1
+        elif (action == 2): # move left
+            if (self.j > 0): # check out of bounds
+                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+                    self.i -= 1
+                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                    if self.i == 1:
+                        self.i -= 1
+                    else:
+                        self.i -= 2
+                self.j -= 1
+        elif (action == 3): # move down
+            if (self.i < 6): # check out of bounds
+                self.i += 1
+            if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+                self.i -= 1
+            elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                if self.i == 1:
+                    self.i -= 1
+                else:
+                    self.i -= 2
 
     # Get the reward for the specific state
     def getReward(self, nextState):
         # If we have reached the goal state, the game ends and we get a reward of 1
         # Otherwise, return the reward of -1
-        if (nextState == (7, 3)):
+        if (nextState == (3, 7)):
             return 1
         else:
             return -1
@@ -104,10 +102,10 @@ class SARSA():
             if randNum > self.epsilon: # take the greedy action
                 egreedyAction = (np.ndarray.tolist(actionValues)).index(max(actionValues))
             else: # take a random action
-                egreedyAction = random.randint(0,3)
+                egreedyAction = random.randint(0, 3)
 
             # Iterate through a single game until the goal is reached
-            while ((grid.i, grid.j) != (7, 3)):
+            while ((grid.i, grid.j) != (3, 7)):
                 stateList.append(s) # add current state to list of states
                 stateList.append(egreedyAction)  # add current action to list of states
 
@@ -128,7 +126,7 @@ class SARSA():
                     egreedyAction2 = random.randint(0, 3)
 
                 # update Q(S,A) using SARSA
-                newQ = self.alpha * (reward + self.gamma *(self.qTable[index2][egreedyAction2]) - self.qTable[index][egreedyAction])
+                newQ = self.alpha * (reward + self.gamma * self.qTable[index2][egreedyAction2] - self.qTable[index][egreedyAction])
                 self.qTable[index][egreedyAction] = self.qTable[index][egreedyAction] + newQ
 
                 # if the change in Q-value is greater than a given threshold, then the game has not converged
@@ -145,12 +143,9 @@ class SARSA():
         for i in range(70):
             row = i // 7
             column = i % 7
-
+            # obtain the optimal policy for a state from its corresponding value in the q-table
             optimalPolicy[column][row] = (np.ndarray.tolist(self.qTable[i])).index(max(self.qTable[i]))
-
         print(optimalPolicy)
-
-
 
 def main():
     agent = SARSA(0.5, 0.5, 0.1)
