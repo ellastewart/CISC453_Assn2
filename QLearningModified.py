@@ -24,35 +24,66 @@ class gridWorld:
     # Moves i and j given an action
     def moveState(self, action):
         if (action == 0): # move right
-            if (self.i < 9): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 2
-                self.i += 1
+            temp = [self.i, self.j]
+            if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                temp[1] += 1
+            elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                temp[1] += 2
+##            if (self.i < 9): # check out of bounds
+##                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+##                    self.j += 1
+##                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+##                    self.j += 2
+##                self.i += 1
+            temp[0] += 1
         elif (action == 1): # move up
-            if (self.j < 6): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 5: # wind factor of 1
-                    self.j += 2
-                elif (self.i == 6 or self.i == 7) and self.j < 4: # wind factor of 2
-                    self.j +=3
-                else:
-                    self.j += 1
+            temp = [self.i, self.j]
+            if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 5: # wind factor of 1
+                temp[1] += 2
+            elif (self.i == 6 or self.i == 7) and self.j < 4: # wind factor of 2
+                temp[1] += 3
+            else:
+                temp[1] += 1
+##            if (self.j < 6): # check out of bounds
+##                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 5: # wind factor of 1
+##                    self.j += 2
+##                elif (self.i == 6 or self.i == 7) and self.j < 4: # wind factor of 2
+##                    self.j +=3
+##                else:
+##                    self.j += 1 # WHY ARE YOU ADDING. MOVING UP SHOULD BE - ?
+           
         elif (action == 2): # move left
-            if (self.i > 0): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 1
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 2
-                self.i -= 1
+            temp = [self.i, self.j]
+            if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                temp[1] += 1
+            elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                temp[1] += 2
+##            if (self.i > 0): # check out of bounds
+##                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+##                    self.j += 1
+##                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+##                    self.j += 2
+##                self.i -= 1
+            temp[0] -= 1
         elif (action == 3): # move down
-            if (self.j > 0): # check out of bounds
-                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
-                    self.j += 0
-                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
-                    self.j += 1
-                else:
-                    self.j -= 1
+            temp = [self.i, self.j]
+            if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+                temp[1] += 0
+            elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+                temp[1] += 1
+            else:
+                temp[1] -= 1
+##            if (self.j > 0): # check out of bounds
+##                if (self.i == 3 or self.i == 4 or self.i == 5 or self.i == 8) and self.j < 6: # wind factor of 1
+##                    self.j += 0
+##                elif (self.i == 6 or self.i == 7) and self.j < 5: # wind factor of 2
+##                    self.j += 1
+##                else:
+##                    self.j -= 1
+        # CHECK OUT OF BOUNDS, IF OUT DONT CHANGE
+        if temp[0] >= 0 and temp[0] <= 9 and temp[1] >= 0 and temp[1] <= 6:
+            self.i = temp[0]
+            self.j = temp[1]
 
     # Returns current state as tuple
     def getCurrentState(self):
@@ -148,6 +179,7 @@ def main():
     print(finalStates)
 
 main()
+
 
 
 
