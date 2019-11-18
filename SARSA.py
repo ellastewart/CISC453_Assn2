@@ -3,7 +3,6 @@ import random
 
 # This class is for a gridworld object
 # It stores all information and method related to the actual grid
-# TODO: question about the wind when it is a factor of 2 and it will go out of bounds. Does it go up one or none?
 class gridworld():
     def __init__(self):
         self.i = 3  # initial position assuming 0, 0 is top left corner
