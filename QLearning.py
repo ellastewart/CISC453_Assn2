@@ -89,18 +89,18 @@ class QLearning:
         self.qTable = numpy.zeros((70,4))
 
     # Called to the the QLearning algorithm
-    def runAlgorithm(self):
-
+    def runAlgorithm(self, forever):
+        last = forever - 1
         # Large number of episodes
-        for i in range(10000):
+        for i in range(forever):
             #print(i)
             # Print states visited in order in final round
-            if i == 9999:
+            if i == last:
                 finalStates = []
             # Initializing grid and getting current state
             grid = gridWorld()
             S = grid.getCurrentState()
-            if i == 9999:
+            if i == last:
                 finalStates.append(S)
             states = grid.getStates()
 
@@ -126,7 +126,7 @@ class QLearning:
                 reward = grid.getReward(S2)
 
                 # Append state to list if final episode
-                if i == 9999:
+                if i == last:
                     finalStates.append(S2)
 
                 # Get possible A'
@@ -140,13 +140,20 @@ class QLearning:
                 S = S2  # S <- S'
 
         return finalStates
-
+    
+def draw(states):
+    board = [['0' for x in range(10)] for y in range(7)]
+    for i in states:
+        board[i[1]][i[0]] = 'X'
+    for i in board:
+        print(i)
+        
 def main():
-
     agent = QLearning(0.5, 0.5, 0.1)
-    finalStates = agent.runAlgorithm()
+    forever = 1000
+    finalStates = agent.runAlgorithm(forever)
     print(finalStates)
-
+    draw(finalStates)
 main()
 
 
