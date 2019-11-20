@@ -135,17 +135,17 @@ class QLearning:
                 delta = r + self.gamma*self.q[s2[0]][s2[1]][aStar] - self.q[s[0]][s[1]][a]
                 self.z[s[0]][s[1]][a] += 1 # eligibility
                 # go through all states and actions
-                for m in range(10): # x
-                    for n in range(7): # y
-                        for j in range(4): # all actions
-                            self.q[m][n][j] += self.alpha*delta*self.z[m][n][j]
-                            
-                            # check if action and aStar are the same
-                            if equal(action, aStar, maxActions):
-                                # what is lambda?
-                                self.z[m][n][j] = self.gamma*self.decay*self.z[m][n][j]
-                            else:
-                                self.z[m][n][j] = 0
+                #for m in range(10): # x
+                    #for n in range(7): # y
+                for j in range(4): # all actions
+                    self.q[s[0]][s[1]][j] += self.alpha*delta*self.z[s[0]][s[1]][j]
+                    
+                    # check if action and aStar are the same
+                    if equal(action, aStar, maxActions):
+                        # what is lambda?
+                        self.z[s[0]][s[1]][j] = self.gamma*self.decay*self.z[s[0]][s[1]][j]
+                    else:
+                        self.z[s[0]][s[1]][j] = 0
 
                 s = s2
                 a = action
