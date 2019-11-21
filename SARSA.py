@@ -17,19 +17,16 @@ class gridworld():
     # A move on the grid, either up, right, left, or down
     # Takes wind into account
     def moveState(self, action):
-        if (action == 0): # move right
-            if (self.j < 9): # check out of bounds
+        if action == 0: # move right
+            if self.j < 9: # check out of bounds
                 if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
                     self.i -= 1
-                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
-                    if self.i == 1:
-                        self.i -= 1
-                    else:
-                        self.i -= 2
+                elif (self.j == 6 or self.j == 7) and self.i > 2: # wind factor of 2
+                    self.i -= 2
                 self.j += 1
-        elif (action == 1): # move up
-            if (self.i > 0): # check out of bounds
-                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+        elif action == 1: # move up
+            if self.i > 0: # check out of bounds
+                if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
                     if self.i == 1:
                         self.i -= 1
                     else:
@@ -43,9 +40,9 @@ class gridworld():
                         self.i -=3
                 else:
                     self.i -= 1
-        elif (action == 2): # move left
-            if (self.j > 0): # check out of bounds
-                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+        elif action == 2: # move left
+            if self.j > 0: # check out of bounds
+                if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
                     self.i -= 1
                 elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
                     if self.i == 1:
@@ -53,10 +50,10 @@ class gridworld():
                     else:
                         self.i -= 2
                 self.j -= 1
-        elif (action == 3): # move down
-            if (self.i < 6): # check out of bounds
+        elif action == 3: # move down
+            if self.i < 6: # check out of bounds
                 self.i += 1
-            if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+            if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
                 self.i -= 1
             elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
                 if self.i == 1:
@@ -68,7 +65,7 @@ class gridworld():
     def getReward(self, nextState):
         # If we have reached the goal state, the game ends and we get a reward of 1
         # Otherwise, return the reward of -1
-        if (nextState == (3, 7)):
+        if nextState == (3, 7):
             return 1
         else:
             return -1
@@ -103,7 +100,7 @@ class SARSA():
                 egreedyAction = random.randint(0, 3)
 
             # Iterate through a single game until the goal is reached
-            while ((grid.i, grid.j) != (3, 7)):
+            while (grid.i, grid.j) != (3, 7):
                 stateList.append(s) # add current state to list of states
                 stateList.append(egreedyAction)  # add current action to list of states
 
