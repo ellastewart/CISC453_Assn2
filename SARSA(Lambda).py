@@ -71,10 +71,11 @@ class gridworld():
 
 # This class lets us create a SARSA game object
 class SARSA():
-    def __init__(self, gamma, alpha, epsilon):
+    def __init__(self, gamma, alpha, epsilon, Lambda):
         self.gamma = gamma
         self.alpha = alpha
         self.epsilon = epsilon
+        self.Lambda = Lambda
         self.qTable = np.zeros((70, 4)) # initialize the q-table as zeros
         self.z = np.zeros((70, 4)) # initialize eligibility traces as zeros
 
@@ -140,7 +141,7 @@ class SARSA():
         print(optimalPolicy)
 
 def main():
-    agent = SARSA(0.5, 0.5, 0.1)
+    agent = SARSA(0.5, 0.5, 0.1, 0.9)
     agent.algorithm()
     agent.optimalPolicy()
 
