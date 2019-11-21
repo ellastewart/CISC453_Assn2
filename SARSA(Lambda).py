@@ -18,117 +18,48 @@ class gridworld():
     # Takes wind into account
     def moveState(self, action):
         if action == 0: # move right
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-            if self.j < 9:
-                self.j += 1
-        elif action == 1: # move up-right
-            if self.i > 0: # check out of bounds
-                self.i -= 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
             if self.j < 9: # check out of bounds
+                if (self.j == 3 or self.j == 4 or self.j == 5 or self.j == 8) and self.i > 0: # wind factor of 1
+                    self.i -= 1
+                elif (self.j == 6 or self.j == 7) and self.i > 2: # wind factor of 2
+                    self.i -= 2
                 self.j += 1
-        elif action == 2: # move up
+        elif action == 1: # move up
             if self.i > 0: # check out of bounds
+                if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
+                    if self.i == 1:
+                        self.i -= 1
+                    else:
+                        self.i -= 2
+                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                    if self.i == 1:
+                        self.i -= 1
+                    elif self.i == 2:
+                        self.i -= 2
+                    else:
+                        self.i -=3
+                else:
+                    self.i -= 1
+        elif action == 2: # move left
+            if self.j > 0: # check out of bounds
+                if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
+                    self.i -= 1
+                elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                    if self.i == 1:
+                        self.i -= 1
+                    else:
+                        self.i -= 2
+                self.j -= 1
+        elif action == 3: # move down
+            if self.i < 6: # check out of bounds
+                self.i += 1
+            if self.j in (3, 4, 5, 8) and self.i > 0: # wind factor of 1
                 self.i -= 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
+            elif (self.j == 6 or self.j == 7) and self.i > 0: # wind factor of 2
+                if self.i == 1:
+                    self.i -= 1
                 else:
-                    self.i += wind
-        elif action == 3: # move up-left
-            if self.i > 0: # check out of bounds
-                self.i -= 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-            if self.j > 0:
-                self.j -= 1
-        elif action == 4: # move left
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-            if self.j > 0:
-                self.j -= 1
-        elif action == 5: # move down-left
-            if self.i < 6: # check out of bounds
-                self.i += 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-            if self.j > 0:
-                self.j -= 1
-        elif action == 6: # move down
-            if self.i < 6: # check out of bounds
-                self.i += 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-        elif action == 7: # move down-right
-            if self.i < 6: # check out of bounds
-                self.i += 1
-            if self.i > 0 and self.j in (3, 4, 5, 8, 6, 7): # check out of bounds
-                wind = random.choice([1, 0, -1]) 
-                if self.j in (3, 4, 5, 8): # wind factor of 1
-                    wind -= 1
-                elif self.j == 6 or self.j == 7: # wind factor of 2
-                    wind -= 2
-                if self.i + wind < 0:
-                    self.i = 0
-                else:
-                    self.i += wind
-            if self.j < 9:
-                self.j += 1
+                    self.i -= 2
 
     # Get the reward for the specific state
     def getReward(self, nextState):
