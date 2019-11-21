@@ -83,7 +83,6 @@ class SARSA():
 
     def algorithm(self):
         # Loop through the number of episodes
-        #for i in range(self.episodes):
         converged = False # flag variable to see if algorithm has converged
         while converged == False:
 
