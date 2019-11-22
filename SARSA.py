@@ -143,8 +143,9 @@ class SARSA():
         print(optimalPolicy)
 
 def main():
-    agent = SARSA(0.5, 0.5, 0.1)
+    agent = SARSA(0.5, 0.9, 0.1)
     agent.algorithm()
-    agent.optimalPolicy()
+    #uncomment to print the policy
+	#agent.optimalPolicy() 
 
 main()
