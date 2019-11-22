@@ -132,7 +132,8 @@ class QLearning:
                 # will have to compare with action for actual value
                 aStar = random.choice(maxActions)
                 # now have action, calculate delta
-                delta = r + self.gamma*self.q[s2[0]][s2[1]][aStar] - self.q[s[0]][s[1]][a]
+                # was min in slides - assume max here due to optimization
+                delta = r + self.gamma*self.q[s2[0]][s2[1]][action] - self.q[s[0]][s[1]][aStar]
                 self.z[s[0]][s[1]][a] += 1 # eligibility
                 # go through all states and actions
                 #for m in range(10): # x
@@ -164,7 +165,7 @@ def main():
     alpha = 0.5
     epsilon = 0.1
     decay = 0.8
-    forever = 1000
+    forever = 100
     agent = QLearning(gamma, alpha, epsilon, decay)
     final = agent.runAlg(forever)
     print(final)
