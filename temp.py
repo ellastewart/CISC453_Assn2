@@ -1,9 +1,7 @@
-# eligibility traces
 import numpy
 import random
 
 def getMax(actions):
-    
     maxVal = max(actions) # get max val
     allMax = []
     numAct = len(actions)
@@ -100,7 +98,7 @@ class QLearning:
             #a = random.choice([0,1,2,3]) # first choice is random
             # just use greedy?
             temp = self.q[s[0]][s[1]]
-            a = random.choice(getMax(temp))
+            a = temp.argmax(axis=0)
             while grid.currentState() != (7,3): # win condition
                 
                 if i == last:
@@ -119,58 +117,35 @@ class QLearning:
 
                 # get indexes of all max values
                 # for greedy and astar
-                #print(actions)
                 maxActions = getMax(actions)
-                #print(maxActions)
-                #print()
                 # choose actual action
                 if chance <= self.epsilon:
                     # explore
                     action = random.randint(0,3)                    
                 else:
-                    # greedy
-                    try:
-                        action = random.choice(maxActions)
-                    except Exception as e:
-                        print("oops")
-                        print(s2)
-                        #print(maxActions)
-                        print(actions)
-                        print()
-                        break
+                    # greedy      
+                    action = random.choice(maxActions)
 
                 # THIS IS DIFFERENT FROM SARSA
                 # get maximum action
                 # will have to compare with action for actual value
-                try:
-                    aStar = random.choice(maxActions)
-                except Exception as e:
-                    print("oops")
-                    print(s2)
-                    #print(maxActions)
-                    print(actions)
-                    print()
-                    break
+                aStar = random.choice(maxActions)
                 # now have action, calculate delta
                 # was min in slides - assume max here due to optimization
-                
-                delta = r + self.gamma*self.q[s2[0]][s2[1]][aStar] - self.q[s[0]][s[1]][a]
+                delta = r + self.gamma*self.q[s2[0]][s2[1]][action] - self.q[s[0]][s[1]][aStar]
                 self.z[s[0]][s[1]][a] += 1 # eligibility
                 # go through all states and actions
-                for m in range(10): # x
-                    for n in range(7): # y
-                        for j in range(4): # all actions
-##                            self.q[s[0]][s[1]][j] += self.alpha*delta*self.z[s[0]][s[1]][j]
-                            self.q[m][n][j] += self.alpha*delta*self.z[m][n][j]
-                            # check if action and aStar are the same
-                            if equal(action, aStar, maxActions):
-                                # what is lambda?
-##                                self.z[s[0]][s[1]][j] = self.gamma*self.decay*self.z[s[0]][s[1]][j]
-                                self.z[m][n][j] = self.gamma*self.decay*self.z[m][n][j]
-                           
-                            else:
-                                self.z[m][n] = 0
-##                                self.z[s[0]][s[1]][j] = 0
+                #for m in range(10): # x
+                    #for n in range(7): # y
+                for j in range(4): # all actions
+                    self.q[s[0]][s[1]][j] += self.alpha*delta*self.z[s[0]][s[1]][j]
+                    
+                    # check if action and aStar are the same
+                    if equal(action, aStar, maxActions):
+                        # what is lambda?
+                        self.z[s[0]][s[1]][j] = self.gamma*self.decay*self.z[s[0]][s[1]][j]
+                    else:
+                        self.z[s[0]][s[1]][j] = 0
 
                 s = s2
                 a = action
@@ -185,11 +160,11 @@ def draw(states):
         print(i)
         
 def main():
-    gamma = 0.7
-    alpha = 0.6
+    gamma = 0.5
+    alpha = 0.5
     epsilon = 0.1
     decay = 0.8
-    forever = 1000
+    forever = 100
     agent = QLearning(gamma, alpha, epsilon, decay)
     final = agent.runAlg(forever)
     print(final)
@@ -197,12 +172,3 @@ def main():
 
 main()
 
-
-                
-                
-                    
-                    
-            
-            
-    
-    

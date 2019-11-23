@@ -1,15 +1,8 @@
-'''
-Written by Ella Stewart on 2019-11-12
-Implements QLearning for the Windy Grid World
-'''
-import random
-import numpy 
 
-'''
-Sets up the grid to be used for Qlearning
-Initializes coordinates as start state
-Moves states given an action
-'''
+import random
+import numpy
+import statistics
+
 class gridWorld:
 
     # Constructor that initializes start state and all possible states
@@ -105,20 +98,25 @@ class QLearning:
 
     # Called to the the QLearning algorithm
     def runAlgorithm(self):
-
+        converge = False
         # Large number of episodes
-        for i in range(10000):
+        #for i in range(10000):
+        countConv = 0 # steps required to converge
+        while converge == False:
             #print(i)
             # Print states visited in order in final round
-            if i == 9999:
-                finalStates = []
+##            if i == 9999:
+##                finalStates = []
             # Initializing grid and getting current state
             grid = gridWorld()
             S = grid.getCurrentState()
-            if i == 9999:
-                finalStates.append(S)
+##            if i == 9999:
+##                finalStates.append(S)
             states = grid.getStates()
-
+            
+            steps = [] # all the numbers of steps
+            count = 0 # keeps track of the number of steps
+            
             # Episode ends at goal state (3,7) on grid
             while grid.getCurrentState() != (7, 3):
                 # Get the possible actions
@@ -141,8 +139,8 @@ class QLearning:
                 reward = grid.getReward(S2)
 
                 # Append state to list if final episode
-                if i == 9999:
-                    finalStates.append(S2)
+##                if i == 9999:
+##                    finalStates.append(S2)
 
                 # Get possible A'
                 index2 = states.index(S2)
@@ -153,8 +151,20 @@ class QLearning:
                 # Update QTable
                 self.qTable[index1][action] = qSA + self.alpha*(reward + self.gamma*self.qTable[index2][maxA] - qSA)
                 S = S2  # S <- S'
+                count += 1
+            # have won, record steps
+            steps.append(count)
+            # say converged once number of steps has stayed the same for the past 10
+            countConv += 1
+            if len(steps) >= 10:
+                temp = steps[-10:] # last 10
+                # average is off by 1 or less
+                if abs(statistics.mean(temp) - temp[-1]) < 50:
+                    converge = True
 
-        return finalStates
+                    
+        #return finalStates
+        return countConv
     def optimalPolicy(self):
         optimalPolicy = numpy.zeros((7, 10))
         for i in range(70):
@@ -168,8 +178,10 @@ class QLearning:
 def main():
 
     agent = QLearning(0.5, 0.5, 0.1)
-    finalStates = agent.runAlgorithm()
-    print(finalStates)
+##    finalStates = agent.runAlgorithm()
+##    print(finalStates)
+    count = agent.runAlgorithm()
+    print(count)
     agent.optimalPolicy()
 
 main()
